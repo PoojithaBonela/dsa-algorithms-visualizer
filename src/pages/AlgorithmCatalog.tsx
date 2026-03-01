@@ -9,7 +9,8 @@ import {
     Atom,
     ChevronLeft,
     ArrowRight,
-    Zap
+    Zap,
+    Lock
 } from 'lucide-react';
 
 const categories = [
@@ -43,7 +44,8 @@ const categories = [
         icon: Workflow,
         color: "text-rose-400",
         bg: "bg-rose-400/10",
-        border: "border-rose-400/20"
+        border: "border-rose-400/20",
+        comingSoon: true
     },
     {
         title: "Binary Trees",
@@ -59,7 +61,8 @@ const categories = [
         icon: Triangle,
         color: "text-cyan-400",
         bg: "bg-cyan-400/10",
-        border: "border-cyan-400/20"
+        border: "border-cyan-400/20",
+        comingSoon: true
     },
     {
         title: "Graph Algorithms",
@@ -67,7 +70,8 @@ const categories = [
         icon: Atom,
         color: "text-indigo-400",
         bg: "bg-indigo-400/10",
-        border: "border-indigo-400/20"
+        border: "border-indigo-400/20",
+        comingSoon: true
     }
 ];
 
@@ -117,23 +121,38 @@ export const AlgorithmCatalog = ({ onSelect, onBack }: { onSelect: (algo: string
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.05 }}
-                            whileHover={{ scale: 1.02, y: -5 }}
-                            onClick={() => onSelect(category.title)}
-                            className={`group p-8 bg-[#1a1a1a] rounded-[2.5rem] border border-white/10 ring-1 ring-white/5 cursor-pointer transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden`}
+                            whileHover={category.comingSoon ? {} : { scale: 1.02, y: -5 }}
+                            onClick={() => !category.comingSoon && onSelect(category.title)}
+                            className={`group p-8 bg-[#1a1a1a] rounded-[2.5rem] border border-white/10 ring-1 ring-white/5 transition-all duration-300 relative overflow-hidden ${category.comingSoon
+                                ? 'opacity-50 cursor-not-allowed'
+                                : 'cursor-pointer hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10'
+                                }`}
                         >
                             {/* Card Shine Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                            {!category.comingSoon && (
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                            )}
 
-                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-white/5 group-hover:bg-primary/20 transition-all group-hover:scale-110 relative z-10`}>
-                                <category.icon className={`w-7 h-7 ${category.color} transition-colors group-hover:text-primary`} />
+                            {/* Coming Soon Badge */}
+                            {category.comingSoon && (
+                                <div className="absolute top-5 right-5 flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full z-20">
+                                    <Lock className="w-3 h-3 text-white/40" />
+                                    <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Coming Soon</span>
+                                </div>
+                            )}
+
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-white/5 transition-all relative z-10 ${!category.comingSoon ? 'group-hover:bg-primary/20 group-hover:scale-110' : ''}`}>
+                                <category.icon className={`w-7 h-7 ${category.color} transition-colors ${!category.comingSoon ? 'group-hover:text-primary' : ''}`} />
                             </div>
-                            <h3 className="text-2xl font-black text-white mb-3 tracking-tight group-hover:text-primary transition-colors uppercase relative z-10">{category.title}</h3>
+                            <h3 className={`text-2xl font-black text-white mb-3 tracking-tight transition-colors uppercase relative z-10 ${!category.comingSoon ? 'group-hover:text-primary' : ''}`}>{category.title}</h3>
                             <p className="text-white/40 text-sm font-medium leading-relaxed mb-6 italic relative z-10">
                                 {category.description}
                             </p>
-                            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity relative z-10">
-                                Explore Algos <ArrowRight className="w-3 h-3" />
-                            </div>
+                            {!category.comingSoon && (
+                                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity relative z-10">
+                                    Explore Algos <ArrowRight className="w-3 h-3" />
+                                </div>
+                            )}
                         </motion.div>
                     ))}
                 </div>

@@ -13,12 +13,14 @@ import { LinearSearchPage } from './pages/LinearSearchPage'
 import { BinarySearchPage } from './pages/BinarySearchPage'
 import { StackPage } from './pages/StackPage'
 import { QueuePage } from './pages/QueuePage'
+import { CreateBinaryTreePage } from './pages/CreateBinaryTreePage'
+import { ExploreBinaryTreeTypesPage } from './pages/ExploreBinaryTreeTypesPage'
 import { generateBubbleSortTrace } from './lib/algorithms/sorting'
 import type { AlgorithmTrace } from './lib/algorithms/types'
 
 function App() {
   // State
-  const [view, setView] = useState<'landing' | 'catalog' | 'algorithm-list' | 'visualizer' | 'bubble-sort-visualizer' | 'selection-sort-visualizer' | 'insertion-sort-visualizer' | 'quick-sort-visualizer' | 'merge-sort-visualizer' | 'linear-search-visualizer' | 'binary-search-visualizer' | 'stack-visualizer' | 'queue-visualizer'>('landing')
+  const [view, setView] = useState<'landing' | 'catalog' | 'algorithm-list' | 'visualizer' | 'bubble-sort-visualizer' | 'selection-sort-visualizer' | 'insertion-sort-visualizer' | 'quick-sort-visualizer' | 'merge-sort-visualizer' | 'linear-search-visualizer' | 'binary-search-visualizer' | 'stack-visualizer' | 'queue-visualizer' | 'create-binary-tree-visualizer' | 'explore-binary-tree-types-visualizer'>('landing')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>('')
   const [trace, setTrace] = useState<AlgorithmTrace | null>(null)
@@ -59,6 +61,16 @@ function App() {
     }
     if (algoId === 'queue') {
       setView('queue-visualizer')
+      return
+    }
+    if (algoId === 'create-binary-tree') {
+      setView('create-binary-tree-visualizer')
+      setSelectedAlgorithm('create binary tree')
+      return
+    }
+    if (algoId === 'explore-binary-tree-types') {
+      setView('explore-binary-tree-types-visualizer')
+      setSelectedAlgorithm('explore tree types')
       return
     }
 
@@ -182,6 +194,26 @@ function App() {
   if (view === 'queue-visualizer') {
     return (
       <QueuePage
+        onBack={() => setView('algorithm-list')}
+        onHome={() => setView('landing')}
+        onCatalog={() => setView('catalog')}
+      />
+    )
+  }
+
+  if (view === 'create-binary-tree-visualizer') {
+    return (
+      <CreateBinaryTreePage
+        onBack={() => setView('algorithm-list')}
+        onHome={() => setView('landing')}
+        onCatalog={() => setView('catalog')}
+      />
+    )
+  }
+
+  if (view === 'explore-binary-tree-types-visualizer') {
+    return (
+      <ExploreBinaryTreeTypesPage
         onBack={() => setView('algorithm-list')}
         onHome={() => setView('landing')}
         onCatalog={() => setView('catalog')}

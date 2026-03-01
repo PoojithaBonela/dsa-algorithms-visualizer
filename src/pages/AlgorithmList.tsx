@@ -4,7 +4,8 @@ import {
     Play,
     Clock,
     Binary,
-    Code2
+    Code2,
+    Lock
 } from 'lucide-react';
 
 interface Algorithm {
@@ -16,6 +17,7 @@ interface Algorithm {
         space: string;
     };
     difficulty: 'Easy' | 'Medium' | 'Hard';
+    comingSoon?: boolean;
 }
 
 const algorithmsByCategory: Record<string, Algorithm[]> = {
@@ -87,6 +89,23 @@ const algorithmsByCategory: Record<string, Algorithm[]> = {
             complexity: { time: "O(1)", space: "O(n)" },
             difficulty: "Easy"
         }
+    ],
+    "Binary Trees": [
+        {
+            id: "create-binary-tree",
+            title: "Create Binary Tree",
+            description: "Interactively build and visualize a binary tree. Understand node relationships, levels, and height.",
+            complexity: { time: "O(log n)", space: "O(n)" },
+            difficulty: "Medium"
+        },
+        {
+            id: "explore-binary-tree-types",
+            title: "Explore Types of Binary Tree",
+            description: "Learn about different types of binary trees like Full, Complete, Perfect, and Balanced trees with visual examples.",
+            complexity: { time: "O(1)", space: "O(1)" },
+            difficulty: "Easy",
+            comingSoon: true
+        }
     ]
 };
 
@@ -136,15 +155,28 @@ export const AlgorithmList = ({
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: i * 0.05 }}
-                            whileHover={{ scale: 1.01, x: 5 }}
-                            onClick={() => onSelect(algo.id)}
-                            className="group p-8 bg-[#1a1a1a] rounded-[2.5rem] border border-white/10 ring-1 ring-white/5 cursor-pointer transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden flex flex-col justify-between"
+                            whileHover={algo.comingSoon ? {} : { scale: 1.01, x: 5 }}
+                            onClick={() => !algo.comingSoon && onSelect(algo.id)}
+                            className={`group p-8 bg-[#1a1a1a] rounded-[2.5rem] border border-white/10 ring-1 ring-white/5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${algo.comingSoon
+                                    ? 'opacity-50 cursor-not-allowed'
+                                    : 'cursor-pointer hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10'
+                                }`}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                            {!algo.comingSoon && (
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                            )}
+
+                            {/* Coming Soon Badge */}
+                            {algo.comingSoon && (
+                                <div className="absolute top-5 right-5 flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full z-20">
+                                    <Lock className="w-3 h-3 text-white/40" />
+                                    <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Coming Soon</span>
+                                </div>
+                            )}
 
                             <div className="relative z-10">
                                 <div className="flex items-start justify-between mb-6">
-                                    <div className="p-4 bg-white/5 rounded-2xl group-hover:bg-primary/20 transition-all group-hover:scale-110">
+                                    <div className={`p-4 bg-white/5 rounded-2xl transition-all ${!algo.comingSoon ? 'group-hover:bg-primary/20 group-hover:scale-110' : ''}`}>
                                         <Code2 className="w-6 h-6 text-primary" />
                                     </div>
                                     <div className="flex flex-col items-end gap-2">
@@ -157,7 +189,7 @@ export const AlgorithmList = ({
                                     </div>
                                 </div>
 
-                                <h3 className="text-2xl font-black text-white mb-3 tracking-tight group-hover:text-primary transition-colors uppercase">{algo.title}</h3>
+                                <h3 className={`text-2xl font-black text-white mb-3 tracking-tight transition-colors uppercase ${!algo.comingSoon ? 'group-hover:text-primary' : ''}`}>{algo.title}</h3>
                                 <p className="text-white/40 text-sm font-medium leading-relaxed mb-8">
                                     {algo.description}
                                 </p>
@@ -174,9 +206,11 @@ export const AlgorithmList = ({
                                     <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Space:</span>
                                     <span className="text-[10px] font-black uppercase tracking-widest text-white">{algo.complexity.space}</span>
                                 </div>
-                                <div className="ml-auto flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                                    Visualize <Play className="w-3 h-3 fill-current" />
-                                </div>
+                                {!algo.comingSoon && (
+                                    <div className="ml-auto flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                        Visualize <Play className="w-3 h-3 fill-current" />
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
                     ))}
