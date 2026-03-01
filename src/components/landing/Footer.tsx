@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Binary, Github, Twitter, Linkedin } from 'lucide-react';
 
 export const Footer = () => {

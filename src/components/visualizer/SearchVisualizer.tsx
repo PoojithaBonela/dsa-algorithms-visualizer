@@ -8,8 +8,7 @@ import {
     ChevronRight,
     Search as SearchIcon,
     Activity,
-    History,
-    BarChart3
+    History
 } from 'lucide-react';
 import type { AlgorithmTrace } from '../../lib/algorithms/types';
 import { cn } from '../../utils/cn';
@@ -183,7 +182,6 @@ export const SearchVisualizer: React.FC<SearchVisualizerProps> = ({
                                     return null;
                                 }
 
-                                const isComparing = step.type === 'COMPARE' && step.indices.includes(idx);
                                 // Start with highlight (scanning)
                                 const isHighlighted = (step.type === 'HIGHLIGHT' || step.type === 'COMPARE') && step.indices.includes(idx);
                                 // Found state
