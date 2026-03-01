@@ -41,13 +41,12 @@ An interactive visualizer for Data Structures & Algorithms, built to make learni
 
 ---
 
-## Coming Soon
-
-- 🔒 Explore Types of Binary Trees *(Full, Complete, Perfect, Balanced)*
-- 🔒 Linked Lists *(Singly, Doubly, Circular)*
-- 🔒 Binary Search Trees *(Insert, Delete, Search)*
-- 🔒 Graph Algorithms *(BFS, DFS, Dijkstra's)*
-
+## Roadmap
+Planned additions:
+- Binary Tree Variants (Full, Complete, Perfect, Balanced)
+- Linked Lists (Singly, Doubly, Circular)
+- Binary Search Trees (Insert, Delete, Search)
+- Improved mobile responsiveness and layout refinements
 ---
 
 ## Run Locally
